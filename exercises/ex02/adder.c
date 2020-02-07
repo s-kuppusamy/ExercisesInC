@@ -37,6 +37,13 @@ do
 {
 printf("%s\n",prompt);
 eof = fgets(integ,size,stdin) == NULL;
+// I got the following three lines from stack overflow, but I went back to
+// read through the documentation to understand what happens. strchr finds
+// the first instance of the character of interest in the string. Thus, if no
+// newline character is found, it is NULL. so if that holds true, then there
+// are extra characters past the buffer limit. So then, while the character
+// inputted from the keyboard does not equal newline, it prints an error
+// statement and continues back to the start of the do loop.
 if (strchr(integ, '\n') == NULL) {
    int c;
     while((c = getc(stdin)) != '\n');
