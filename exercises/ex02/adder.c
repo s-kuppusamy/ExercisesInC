@@ -38,13 +38,13 @@ do
 printf("%s\n",prompt);
 eof = fgets(integ,size,stdin) == NULL;
 if (strchr(integ, '\n') == NULL) {
-    int c;
+   int c;
     while((c = getc(stdin)) != '\n');
       printf("Error! Input too long. Try again.\n");
       continue;
 }
 val = atoi(integ);
-if (val==0)
+if (val==0 && *integ != '0' && !eof)
 {
   printf("Error! This input cannot be converted to an integer. Try again.\n");
   continue;
