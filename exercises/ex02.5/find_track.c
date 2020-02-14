@@ -19,7 +19,6 @@ char tracks[][80] = {
     "Flamenco Sketches"
 };
 
-
 // Finds all tracks that contain the given string.
 //
 // Prints track number and title.
