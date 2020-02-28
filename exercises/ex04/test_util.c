@@ -9,7 +9,7 @@ License: Creative Commons Attribution-ShareAlike 3.0
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "endswith.h"
+#include "util.h"
 #include "minunit.h"
 
 int tests_run = 0;
