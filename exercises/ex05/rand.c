@@ -78,7 +78,40 @@ float my_random_float2()
 // compute a random double using my algorithm
 double my_random_double()
 {
-    // TODO: fill this in
+  long x;
+  long y;
+  long mant;
+  long exp = 1023;
+  long mask = 1;
+
+  union {
+      double f;
+      long i;
+  } b;
+
+  // generate random bits until we see the first set bit
+  while (1) {
+      x = random();
+      y = random();
+      x = (x)|(y<<32);
+      if (x == 0) {
+          exp -= 63;
+      } else {
+          break;
+      }
+  }
+
+  // find the location of the first set bit and compute the exponent
+  while (x & mask) {
+      mask <<= 1;
+      exp--;
+  }
+
+  // use the remaining bit as the mantissa
+  mant = x >> 11;
+  b.i = (exp << 52) | mant;
+
+  return b.f;
 }
 
 // return a constant (this is a dummy function for time trials)
@@ -124,3 +157,7 @@ float random_double()
 
     return f;
 }
+
+
+
+//Both test1 and test2 were straight lines
