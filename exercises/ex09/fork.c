@@ -18,7 +18,7 @@ License: MIT License https://opensource.org/licenses/MIT
 // errno is an external global variable that contains
 // error information
 extern int errno;
-
+int gl = 2;
 
 // get_seconds returns the number of seconds since the
 // beginning of the day, with microsecond precision
@@ -45,6 +45,11 @@ int main(int argc, char *argv[])
     pid_t pid;
     double start, stop;
     int i, num_children;
+
+
+    printf("%s %d \n","The global variable: ", gl);
+    int* dy = malloc(sizeof(int));
+    printf("%s %d \n","The dynaimc/heap variable: ", *dy);
 
     // the first command-line argument is the name of the executable.
     // if there is a second, it is the number of children to create.
@@ -73,13 +78,19 @@ int main(int argc, char *argv[])
         /* see if we're the parent or the child */
         if (pid == 0) {
             child_code(i);
+            *dy = 4;
+            gl = 3;
+            int st = 1;
+            char* stat = "hello";
+            printf("%s %d \n","The global variable: ", gl);
+            printf("%s %d \n","The dynamic/heap variable: ", *dy);
+            printf("%s %d \n","The stack(local) variable: ", st);
             exit(i);
         }
     }
 
     /* parent continues */
     printf("Hello from the parent.\n");
-
     for (i=0; i<num_children; i++) {
         pid = wait(&status);
 
@@ -94,8 +105,21 @@ int main(int argc, char *argv[])
         printf("Child %d exited with error code %d.\n", pid, status);
     }
     // compute the elapsed time
+    //st = 2; This cannot be altered here because it is defined within the
+    //scope of the child, so it's not defined in the parent process.
     stop = get_seconds();
     printf("Elapsed time = %f seconds.\n", stop - start);
-
+    printf("%s %d \n","The global variable: ", gl); // the global variable was
+    //not effectively changed in the child
+    printf("%s %d \n","The dynamic/heap variable: ", *dy);
+    //the heap variable's value was also not effectively changed
+    //printf("%s %d \n","The stack(local) variable: ", st);
+    // so likewise, we aren't able to print it here
+    //printf("%s %s \n","The static variable: ", stat);
+    //This cannot be printed here because it is defined within the
+    //scope of the child, so it's not defined in the parent process.
     exit(0);
 }
+
+//The child process and the parent process do not share global, stack, static
+//or heap.They are two different processes that do not share memory.
