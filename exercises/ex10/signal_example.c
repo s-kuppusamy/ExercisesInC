@@ -88,7 +88,25 @@ int main(void) {
         // set (or reset) the alarm
         alarm(5);
 
+<<<<<<< HEAD
         get_answer();
+=======
+        // get the answer
+        while (1) {
+            char *ret = fgets(txt, 4, stdin);
+            if (ret) break;
+        }
+        answer = atoi(txt);
+
+        // check the answer
+        if (answer == a * b) {
+            printf("\nRight!\n");
+            score++;
+        } else {
+            printf("\nWrong!\n");
+        }
+        printf("Score: %i\n", score);
+>>>>>>> 164148ba1b0707c6d7e2dbea6c0f09eeb7d9c862
     }
     return 0;
 }
