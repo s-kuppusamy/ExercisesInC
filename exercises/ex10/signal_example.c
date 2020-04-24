@@ -19,6 +19,25 @@ Based on an example in Head First C.
 #include <signal.h>
 
 int score = 0;
+int a, b, answer;
+char txt[4];
+
+//gets the answer
+void get_answer()
+{
+// get the answer
+char *ret = fgets(txt, 4, stdin);
+answer = atoi(txt);
+
+// check the answer
+if (answer == a * b) {
+    printf("\nRight!\n");
+    score++;
+} else {
+    printf("\nWrong!\n");
+}
+printf("Score: %i\n", score);
+}
 
 /* Set up a signal handler.
 
@@ -37,6 +56,7 @@ int catch_signal(int sig, void (*handler) (int)) {
  */
 void end_game(int sig)
 {
+    get_answer();
     printf("\nFinal score: %i\n", score);
     exit(EXIT_SUCCESS);
 }
@@ -49,8 +69,6 @@ void times_up(int sig) {
 }
 
 int main(void) {
-    int a, b, answer;
-    char txt[4];
 
     // when the alarm goes off, call times_up
     catch_signal(SIGALRM, times_up);
@@ -70,18 +88,7 @@ int main(void) {
         // set (or reset) the alarm
         alarm(5);
 
-        // get the answer
-	    char *ret = fgets(txt, 4, stdin);
-        answer = atoi(txt);
-
-        // check the answer
-        if (answer == a * b) {
-            printf("\nRight!\n");
-            score++;
-        } else {
-            printf("\nWrong!\n");
-        }
-        printf("Score: %i\n", score);
+        get_answer();
     }
     return 0;
 }
